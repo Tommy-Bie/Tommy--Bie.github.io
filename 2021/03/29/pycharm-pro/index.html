@@ -1,0 +1,173 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>使用PyCharm专业版实现远程调试 | Tommy-Bie</title><meta name="keywords" content="notes"><meta name="author" content="Tommy-Bie"><meta name="copyright" content="Tommy-Bie"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="使用PyCharm专业版连接远程服务器实现在本地PyCharm调试并部署到服务器上的方法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用PyCharm专业版实现远程调试">
+<meta property="og:url" content="https://tommy-bie.github.io/2021/03/29/pycharm-pro/index.html">
+<meta property="og:site_name" content="Tommy-Bie">
+<meta property="og:description" content="使用PyCharm专业版连接远程服务器实现在本地PyCharm调试并部署到服务器上的方法">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://z3.ax1x.com/2021/03/29/cCXD9U.png">
+<meta property="article:published_time" content="2021-03-29T09:58:38.000Z">
+<meta property="article:modified_time" content="2021-03-29T10:50:27.978Z">
+<meta property="article:author" content="Tommy-Bie">
+<meta property="article:tag" content="notes">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://z3.ax1x.com/2021/03/29/cCXD9U.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://tommy-bie.github.io/2021/03/29/pycharm-pro/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-03-29 18:50:27'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/img/head.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">7</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">1</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://z3.ax1x.com/2021/03/27/6xobFI.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Tommy-Bie</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">使用PyCharm专业版实现远程调试</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2021-03-29T09:58:38.000Z" title="Created 2021-03-29 17:58:38">2021-03-29</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2021-03-29T10:50:27.978Z" title="Updated 2021-03-29 18:50:27">2021-03-29</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="使用PyCharm专业版实现远程调试"><a href="#使用PyCharm专业版实现远程调试" class="headerlink" title="使用PyCharm专业版实现远程调试"></a>使用PyCharm专业版实现远程调试</h1><p>当我们使用Xshell连接远程服务器时，所有操作只能在命令行上进行，编写、修改代码可以通过vim编辑器完成，但终究没有在类似PyCharm这样的IDE上敲代码舒服。本文将展示如何使用PyCharm专业版连接远程服务器实现在本地PyCharm调试并部署到服务器上的方法（即可以实现在Windows环境下使用PyCharm编写代码并部署到服务器上运行）</p>
+<h2 id="PyCharm专业版破解"><a href="#PyCharm专业版破解" class="headerlink" title="PyCharm专业版破解"></a>PyCharm专业版破解</h2><p>首先，请一定下载Pycharm专业版（Pycharm Professional edition），因为免费的社区版是没有连接远程服务器的功能的</p>
+<p><a target="_blank" rel="noopener" href="http://yx-t.oss-cn-guangzhou.aliyuncs.com/download/PyCharm2020%E4%B8%8B%E8%BD%BD-PyCharm2020%EF%BC%88%E9%99%84%E6%BF%80%E6%B4%BB%E7%A0%81%EF%BC%89%E4%B8%93%E4%B8%9A%E7%89%88%E6%B0%B8%E4%B9%85%E7%A0%B4%E8%A7%A3%E4%B8%8B%E8%BD%BD-%E6%AC%A7%E6%99%AE%E8%BD%AF%E4%BB%B6%E5%9B%AD_082220336.exe">破解版下载链接</a></p>
+<p>解压后运行安装程序pycharm-professional-2020.1.exe</p>
+<p>下载并安装后启动软件，在自动弹出的注册界面中选择evaluate for free，点击evaluate试用软件</p>
+<p>解压文件夹中的jetbrains-agent-latest.zip并找到破解补丁中的jetbrains-agent.jar，将该文件拖动到PyCharm窗口内</p>
+<p>在弹出的窗口中点击restart重启软件，软件自动重启后弹出激活方式，选择activation code，点击为PyCharm安装，然后再点击重启软件</p>
+<p>此时软件已破解成功，点击软件顶部菜单中的Help并选择About可以看到软件使用期限到2089年~</p>
+<h2 id="配置连接远程服务器"><a href="#配置连接远程服务器" class="headerlink" title="配置连接远程服务器"></a>配置连接远程服务器</h2><p>左上角file点击Settings，找到Project Interpreter</p>
+<img src="https://z3.ax1x.com/2021/03/29/cCqU76.png" style="zoom:80%;" />
+
+<p>点击右上角的齿轮，选择Show All</p>
+<p>点击加号（+），找到SSH Interpreter（若是社区版就没有此选项）</p>
+<img src="https://z3.ax1x.com/2021/03/29/cCqXNT.png" style="zoom:80%;" />
+
+<p>注入主机号和用户名，确定后再输入密码，选择自己在远程服务器里的python位置（比如之前在服务器创建的pytorch环境中的python）</p>
+<p>设置好并确定后，在PyCharm菜单的Tools-Deployment-Configuration中选择Mappings并修改Deployment path到自己希望部署到服务器中的位置，例如</p>
+<img src="https://z3.ax1x.com/2021/03/29/cCLt2Q.png" style="zoom:80%;" />
+
+<p>注：要想使用服务器的显卡，请一定保证interpreter为服务器环境的python</p>
+<h2 id="使用示例"><a href="#使用示例" class="headerlink" title="使用示例"></a>使用示例</h2><p>在服务器中新建PycharmProjects文件夹（当然可以继续在该文件夹内建立具体的工程文件夹），然后在自己的电脑里使用PyCharm（已连接至服务器）编写一个简单的py程序</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># test.py</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;成功打开&quot;</span>)</span><br><span class="line"><span class="keyword">import</span> torch </span><br><span class="line"><span class="built_in">print</span>(torch.cuda.is_available)</span><br></pre></td></tr></table></figure>
+
+<p>若是没有自动部署至服务器，可以手动右键点击Deployment并Upload</p>
+<p>然后到我们的XShell上运行该程序</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd PycharmProjects</span><br><span class="line">conda activate pytorch</span><br><span class="line">python test.py</span><br></pre></td></tr></table></figure>
+
+<p>效果如下:</p>
+<p><img src="https://z3.ax1x.com/2021/03/29/cCOv6J.png"></p>
+<p>至此，我们成功地实现了在本地Win系统下使用PyCharm编写代码，然后部署到服务器上运行程序的过程。</p>
+<p>PyCharm破解版参考：<a target="_blank" rel="noopener" href="http://www.opdown.com/soft/220336.html">http://www.opdown.com/soft/220336.html</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">Tommy-Bie</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="https://tommy-bie.github.io/2021/03/29/pycharm-pro/">https://tommy-bie.github.io/2021/03/29/pycharm-pro/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/notes/">notes</a></div><div class="post_share"><div class="social-share" data-image="https://z3.ax1x.com/2021/03/29/cCXD9U.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2021/03/28/learn-ubuntu/"><img class="next-cover" src="https://z3.ax1x.com/2021/03/28/cSvzvj.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">ubuntu配置miniconda+pytorch+opencv</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2021/03/25/git-notes/" title="Git Notes"><img class="cover" src="https://z3.ax1x.com/2021/03/27/6x7HRP.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-03-25</div><div class="title">Git Notes</div></div></a></div><div><a href="/2021/03/28/hexo-problem-log/" title="Problem Log (hexo+github)"><img class="cover" src="https://z3.ax1x.com/2021/03/28/cS5Kt1.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-03-28</div><div class="title">Problem Log (hexo+github)</div></div></a></div><div><a href="/2021/03/28/learn-ubuntu/" title="ubuntu配置miniconda+pytorch+opencv"><img class="cover" src="https://z3.ax1x.com/2021/03/28/cSvzvj.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-03-28</div><div class="title">ubuntu配置miniconda+pytorch+opencv</div></div></a></div><div><a href="/2021/03/28/server-notes/" title="Xshell+WinSCP实现服务器远程连接"><img class="cover" src="https://z3.ax1x.com/2021/03/28/cST9kd.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-03-28</div><div class="title">Xshell+WinSCP实现服务器远程连接</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="/img/head.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Tommy-Bie</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">7</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">1</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Tommy-Bie"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Tommy-Bie" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:1578114898@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>Announcement</span></div><div class="announcement_content">Hello~This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8PyCharm%E4%B8%93%E4%B8%9A%E7%89%88%E5%AE%9E%E7%8E%B0%E8%BF%9C%E7%A8%8B%E8%B0%83%E8%AF%95"><span class="toc-number">1.</span> <span class="toc-text">使用PyCharm专业版实现远程调试</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#PyCharm%E4%B8%93%E4%B8%9A%E7%89%88%E7%A0%B4%E8%A7%A3"><span class="toc-number">1.1.</span> <span class="toc-text">PyCharm专业版破解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E8%BF%9E%E6%8E%A5%E8%BF%9C%E7%A8%8B%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-number">1.2.</span> <span class="toc-text">配置连接远程服务器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B"><span class="toc-number">1.3.</span> <span class="toc-text">使用示例</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/03/29/pycharm-pro/" title="使用PyCharm专业版实现远程调试"><img src="https://z3.ax1x.com/2021/03/29/cCXD9U.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="使用PyCharm专业版实现远程调试"/></a><div class="content"><a class="title" href="/2021/03/29/pycharm-pro/" title="使用PyCharm专业版实现远程调试">使用PyCharm专业版实现远程调试</a><time datetime="2021-03-29T09:58:38.000Z" title="Created 2021-03-29 17:58:38">2021-03-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/03/28/learn-ubuntu/" title="ubuntu配置miniconda+pytorch+opencv"><img src="https://z3.ax1x.com/2021/03/28/cSvzvj.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="ubuntu配置miniconda+pytorch+opencv"/></a><div class="content"><a class="title" href="/2021/03/28/learn-ubuntu/" title="ubuntu配置miniconda+pytorch+opencv">ubuntu配置miniconda+pytorch+opencv</a><time datetime="2021-03-28T05:05:20.000Z" title="Created 2021-03-28 13:05:20">2021-03-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/03/28/server-notes/" title="Xshell+WinSCP实现服务器远程连接"><img src="https://z3.ax1x.com/2021/03/28/cST9kd.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Xshell+WinSCP实现服务器远程连接"/></a><div class="content"><a class="title" href="/2021/03/28/server-notes/" title="Xshell+WinSCP实现服务器远程连接">Xshell+WinSCP实现服务器远程连接</a><time datetime="2021-03-28T03:42:38.000Z" title="Created 2021-03-28 11:42:38">2021-03-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/03/28/hexo-problem-log/" title="Problem Log (hexo+github)"><img src="https://z3.ax1x.com/2021/03/28/cS5Kt1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Problem Log (hexo+github)"/></a><div class="content"><a class="title" href="/2021/03/28/hexo-problem-log/" title="Problem Log (hexo+github)">Problem Log (hexo+github)</a><time datetime="2021-03-28T03:06:03.000Z" title="Created 2021-03-28 11:06:03">2021-03-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/03/25/git-notes/" title="Git Notes"><img src="https://z3.ax1x.com/2021/03/27/6x7HRP.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Git Notes"/></a><div class="content"><a class="title" href="/2021/03/25/git-notes/" title="Git Notes">Git Notes</a><time datetime="2021-03-25T13:13:04.000Z" title="Created 2021-03-25 21:13:04">2021-03-25</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 By Tommy-Bie</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
